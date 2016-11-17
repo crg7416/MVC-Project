@@ -1,0 +1,46 @@
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <title>Image Viewer</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <link rel="shortcut icon" href="/assets/img/favicon.png"/>
+  <link rel="stylesheet" type="text/css" href="/assets/style.css"/>
+</head>
+<body>
+  <nav><a href="/login"><img id="logo" src="/assets/img/face.png" alt="face logo"/></a>
+    <div class="navlink"><a href="/logout">Log out</a></div>
+    <div class="profilePage"><a href="/profile">Profile</a></div>
+  </nav>
+  <section id="makeDomo">
+    <form id="domoForm" name="domoForm" action="/maker" method="POST" class="domoForm" enctype="multipart/form-data">
+      <label for="name">Enter an image Name: </label>
+      <input id="Name" type="text" name="name" placeholder="Image Name"/>
+      <label for="imageURL">Enter an image URL: </label>
+      <input id="Name" type="text" name="imageURL" placeholder="Image URL"/>
+      <input type="hidden" name="_csrf" value={{csrfToken}} />
+      <a id="makeDomoSubmit" href="#" class="makeDomoSubmit">Submit Image</a>
+    </form>
+  </section>
+  <section id="domos">
+    <div class="domo">
+      {{#if images}}
+        {{#each images}}
+          <form class="domo" name="imageDisplayForm" action="/viewImage" method="GET"><img src={{this.imageURL}} width="50" height="50" alt="domo face" class="domoFace"/>
+            <h3 class="domoName">Name: {{this.name}}</h3>
+            <input type="hidden" name="name" value={{this.name}}/>
+            <input type="hidden" name="imageURL" value={{this.imageURL}}/>
+            <input type="submit" class="makeDomoSubmit" value="View full image!"/>
+          </form>
+        {{/each}}
+      {{else}}
+        <h3 class="emptyDomo">No Images yet</h3>
+      {{/if}}
+    </div>
+  </section>
+  <div id="domoMessage"><img id="speech" src="/assets/img/speech.png" alt="speech box"/>
+    <h3><span id="errorMessage"></span></h3><img id="domo" src="assets/img/domo.png" alt="domo"/>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+  <script src="/assets/maker.js" type="text/babel"></script>
+</body>
+</html>
